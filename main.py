@@ -3,6 +3,15 @@ from fastapi import FastAPI
 from pymongo import MongoClient
 from pydantic import BaseModel
 from fastapi.encoders import jsonable_encoder
+from fastapi.middleware.cors import CORSMiddleware
+
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:8080",
+    "*"
+]
 
 class Toilet(BaseModel):
     room: str
@@ -12,6 +21,14 @@ client = MongoClient('mongodb://localhost', 27017)
 db = client["toilet"]
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def start():
@@ -46,8 +63,3 @@ def get_estimate():
         else :
             ans[str(i)] = r['totaltime']/r['amount']
     return {'estimate': ans}
-    
-
-
-
-    
