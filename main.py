@@ -17,13 +17,6 @@ app = FastAPI()
 def start():
     return {"status": "OK"}
 
-# @app.post('/toilet/testpost')
-# def update_1(toilet: Toilet):
-#     t = jsonable_encoder(toilet)
-#     if t['available'] == 1:
-#         db[t['room']].insert_one("room":t['room'],
-#                 {"time":datetime.now()}, "totaltime":0, "")
-
 @app.put('/toilet')
 def update_1(toilet: Toilet):
     t = jsonable_encoder(toilet)
